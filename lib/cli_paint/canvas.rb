@@ -3,6 +3,9 @@ module CliPaint
     HORIZONTAL = '-'
     VERTICAL = '|'
     FILL = ' '
+    LINE_FILL = 'x'
+
+    attr_reader :width, :height, :pixels
 
     def initialize(width, height)
       @width = width
@@ -19,13 +22,21 @@ module CliPaint
     end
 
     def valid?(x, y)
-      (0..width).cover?(x) &&
-        (0..height).cover?(y)
+      (0...width).cover?(x) &&
+        (0...height).cover?(y)
+    end
+
+    def line(x1, y1, x2, y2)
+      return unless (x1 == x2) ^ (y1 == y2)
+
+      y1.upto(y2).each do |y|
+        x1.upto(x2).each do |x|
+          @pixels[y][x] = LINE_FILL
+        end
+      end
     end
 
     private
-
-    attr_reader :width, :height, :pixels
 
     def horizontal_border
       HORIZONTAL * (width + 2)
