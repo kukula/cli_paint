@@ -36,6 +36,13 @@ module CliPaint
       end
     end
 
+    def rect(x1, y1, x2, y2)
+      line(x1, y1, x2, y1)
+      line(x1, y1, x1, y2)
+      line(x1, y2, x2, y2)
+      line(x2, y1, x2, y2)
+    end
+
     private
 
     def horizontal_border

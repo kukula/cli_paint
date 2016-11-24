@@ -83,4 +83,20 @@ describe CliPaint::Canvas do
       end
     end
   end
+
+  describe '#rect' do
+    let(:expected) do
+      "----------------------\n" \
+      "|xxxxxxxxxxxxxxxxxxxx|\n" \
+      "|x                  x|\n" \
+      "|x                  x|\n" \
+      "|xxxxxxxxxxxxxxxxxxxx|\n" \
+      "----------------------"
+    end
+
+    it 'changes canvas pixels' do
+      expect { canvas.rect(0, 0, width - 1, height - 1) }.to change { canvas.to_s }.
+        from(empty_canvas).to(expected)
+    end
+  end
 end
