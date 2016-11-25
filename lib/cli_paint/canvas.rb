@@ -4,6 +4,7 @@ module CliPaint
     VERTICAL = '|'
     FILL = ' '
     LINE_FILL = 'x'
+    NEIGHBORS = [-1, 0, 1].repeated_permutation(2).to_a
 
     attr_reader :width, :height, :pixels
 
@@ -41,6 +42,17 @@ module CliPaint
       line(x1, y1, x1, y2)
       line(x1, y2, x2, y2)
       line(x2, y1, x2, y2)
+    end
+
+    def fill(x, y, fill)
+      NEIGHBORS.each do |point|
+        new_x = x + point[0]
+        new_y = y + point[1]
+        if valid?(new_x, new_y) && pixels[new_y][new_x] == FILL
+          @pixels[new_y][new_x] = fill
+          fill(new_x, new_y, fill)
+        end
+      end
     end
 
     private

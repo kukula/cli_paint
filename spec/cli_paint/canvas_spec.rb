@@ -99,4 +99,20 @@ describe CliPaint::Canvas do
         from(empty_canvas).to(expected)
     end
   end
+
+  describe '#fill' do
+    let(:expected) do
+      "----------------------\n" \
+      "|oooooooooooooooooooo|\n" \
+      "|oooooooooooooooooooo|\n" \
+      "|oooooooooooooooooooo|\n" \
+      "|oooooooooooooooooooo|\n" \
+      "----------------------"
+    end
+
+    it 'fills entire connected to defined point area with defined color' do
+      expect { canvas.fill(1, 1, 'o') }.to change { canvas.to_s }.
+        from(empty_canvas).to(expected)
+    end
+  end
 end
