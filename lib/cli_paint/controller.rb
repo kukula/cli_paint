@@ -20,6 +20,8 @@ module CliPaint
         draw_line(args)
       when 'R'
         draw_rect(args)
+      when 'B'
+        bucket_fill(args)
       when 'Q'
         exit
       else
@@ -70,6 +72,16 @@ module CliPaint
       return POINTS_ERR_MSG unless validate_within_canvas(args)
 
       @canvas.rect(*args.map(&:to_i))
+      @canvas.to_s
+    end
+
+    def bucket_fill(args)
+      return NO_CANVAS_ERR_MSG unless validate_canvas_exists
+      return NUMBER_ARGS_ERR_MSG unless args.size == 3
+      x, y, fill = *args
+      return POINTS_ERR_MSG unless validate_within_canvas([x, y])
+
+      @canvas.fill(x.to_i, y.to_i, fill[0])
       @canvas.to_s
     end
   end
