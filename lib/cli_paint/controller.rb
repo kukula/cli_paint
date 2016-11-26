@@ -10,13 +10,14 @@ module CliPaint
       @canvas = nil
     end
 
-    def dispatch(command)
-      command = command.split(' ')
-      case command[0]
+    def dispatch(command_string)
+      command, *args = command_string.split(' ')
+
+      case command
       when 'C'
-        create_canvas(command)
+        create_canvas(args)
       when 'L'
-        draw_line(command)
+        draw_line(args)
       when 'Q'
         exit
       else
@@ -26,13 +27,8 @@ module CliPaint
 
     private
 
-    def validate_number_of_args(command, number)
-      return false unless command.size == number + 1
-      true
-    end
-
-    def validate_all_integer(command)
-      return false unless command[1..-1].all? { |arg| arg.to_i > 0 }
+    def validate_all_integer(args)
+      return false unless args.all? { |arg| arg.to_i > 0 }
       true
     end
 
@@ -41,28 +37,27 @@ module CliPaint
       true
     end
 
-    def validate_within_canvas(command)
-      return false unless command[1..-1].map(&:to_i).
-        each_slice(2).
+    def validate_within_canvas(args)
+      return false unless args.map(&:to_i).each_slice(2).
         all? { |point| @canvas.valid?(*point) }
       true
     end
 
-    def create_canvas(command)
-      return NUMBER_ARGS_ERR_MSG unless validate_number_of_args(command, 2)
-      return ARGS_ERR_MSG unless validate_all_integer(command)
+    def create_canvas(args)
+      return NUMBER_ARGS_ERR_MSG unless args.size == 2
+      return ARGS_ERR_MSG unless validate_all_integer(args)
 
-      @canvas = Canvas.new(*command[1..2].map(&:to_i))
+      @canvas = Canvas.new(*args.map(&:to_i))
       @canvas.to_s
     end
 
-    def draw_line(command)
+    def draw_line(args)
       return NO_CANVAS_ERR_MSG unless validate_canvas_exists
-      return NUMBER_ARGS_ERR_MSG unless validate_number_of_args(command, 4)
-      return ARGS_ERR_MSG unless validate_all_integer(command)
-      return POINTS_ERR_MSG unless validate_within_canvas(command)
+      return NUMBER_ARGS_ERR_MSG unless args.size == 4
+      return ARGS_ERR_MSG unless validate_all_integer(args)
+      return POINTS_ERR_MSG unless validate_within_canvas(args)
 
-      @canvas.line(*command[1..4].map(&:to_i))
+      @canvas.line(*args.map(&:to_i))
       @canvas.to_s
     end
   end
