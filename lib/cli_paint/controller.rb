@@ -2,7 +2,9 @@ module CliPaint
   class Controller
     GENERAL_ERR_MSG = "I don't know that command"
     NO_CANVAS_ERR_MSG = "You need to create canvas first"
-    ARGS_ERR_MSG = "Wrong args for command"
+    NUMBER_ARGS_ERR_MSG = "Wrong number of args for the command"
+    ARGS_ERR_MSG = "Wrong args for the command"
+    POINTS_ERR_MSG = "Points should be within the canvas"
 
     def initialize
       @canvas = nil
@@ -24,11 +26,13 @@ module CliPaint
 
     private
 
-    def validate_args(command, number)
-      return false unless
-        command.size == number + 1 &&
-          command[1..number + 1].all? { |arg| arg.to_i > 0 }
+    def validate_number_of_args(command, number)
+      return false unless command.size == number + 1
+      true
+    end
 
+    def validate_all_integer(command)
+      return false unless command[1..-1].all? { |arg| arg.to_i > 0 }
       true
     end
 
@@ -37,8 +41,16 @@ module CliPaint
       true
     end
 
+    def validate_within_canvas(command)
+      return false unless command[1..-1].map(&:to_i).
+        each_slice(2).
+        all? { |point| @canvas.valid?(*point) }
+      true
+    end
+
     def create_canvas(command)
-      return ARGS_ERR_MSG unless validate_args(command, 2)
+      return NUMBER_ARGS_ERR_MSG unless validate_number_of_args(command, 2)
+      return ARGS_ERR_MSG unless validate_all_integer(command)
 
       @canvas = Canvas.new(*command[1..2].map(&:to_i))
       @canvas.to_s
@@ -46,7 +58,9 @@ module CliPaint
 
     def draw_line(command)
       return NO_CANVAS_ERR_MSG unless validate_canvas_exists
-      return ARGS_ERR_MSG unless validate_args(command, 4)
+      return NUMBER_ARGS_ERR_MSG unless validate_number_of_args(command, 4)
+      return ARGS_ERR_MSG unless validate_all_integer(command)
+      return POINTS_ERR_MSG unless validate_within_canvas(command)
 
       @canvas.line(*command[1..4].map(&:to_i))
       @canvas.to_s

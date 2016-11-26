@@ -28,7 +28,7 @@ describe CliPaint::Controller do
       context 'invalid arguments' do
         context 'not enough args' do
           it 'returns error message' do
-            expect(controller.dispatch('C 1')).to eq(CliPaint::Controller::ARGS_ERR_MSG)
+            expect(controller.dispatch('C 1')).to eq(CliPaint::Controller::NUMBER_ARGS_ERR_MSG)
           end
         end
 
@@ -64,13 +64,19 @@ describe CliPaint::Controller do
         context 'invalid arguments' do
           context 'not enough args' do
             it 'returns error message' do
-              expect(controller.dispatch('L 1')).to eq(CliPaint::Controller::ARGS_ERR_MSG)
+              expect(controller.dispatch('L 1')).to eq(CliPaint::Controller::NUMBER_ARGS_ERR_MSG)
             end
           end
 
           context 'non integer args' do
             it 'returns error message' do
               expect(controller.dispatch('L Z A O P')).to eq(CliPaint::Controller::ARGS_ERR_MSG)
+            end
+          end
+
+          context 'points out of canvas' do
+            it 'returns error message' do
+              expect(controller.dispatch('L 0 0 21 4')).to eq(CliPaint::Controller::ARGS_ERR_MSG)
             end
           end
         end
@@ -81,7 +87,6 @@ describe CliPaint::Controller do
           expect(controller.dispatch('L 1 1 1 4')).to eq(CliPaint::Controller::NO_CANVAS_ERR_MSG)
         end
       end
-
     end
   end
 end
