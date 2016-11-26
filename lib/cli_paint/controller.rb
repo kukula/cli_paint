@@ -18,6 +18,8 @@ module CliPaint
         create_canvas(args)
       when 'L'
         draw_line(args)
+      when 'R'
+        draw_rect(args)
       when 'Q'
         exit
       else
@@ -58,6 +60,16 @@ module CliPaint
       return POINTS_ERR_MSG unless validate_within_canvas(args)
 
       @canvas.line(*args.map(&:to_i))
+      @canvas.to_s
+    end
+
+    def draw_rect(args)
+      return NO_CANVAS_ERR_MSG unless validate_canvas_exists
+      return NUMBER_ARGS_ERR_MSG unless args.size == 4
+      return ARGS_ERR_MSG unless validate_all_integer(args)
+      return POINTS_ERR_MSG unless validate_within_canvas(args)
+
+      @canvas.rect(*args.map(&:to_i))
       @canvas.to_s
     end
   end
