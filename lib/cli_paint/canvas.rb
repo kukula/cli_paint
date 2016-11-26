@@ -23,8 +23,8 @@ module CliPaint
     end
 
     def valid?(x, y)
-      (0...width).cover?(x) &&
-        (0...height).cover?(y)
+      (1..width).cover?(x) &&
+        (1..height).cover?(y)
     end
 
     def line(x1, y1, x2, y2)
@@ -32,7 +32,7 @@ module CliPaint
 
       y1.upto(y2).each do |y|
         x1.upto(x2).each do |x|
-          @pixels[y][x] = LINE_FILL
+          @pixels[y - 1][x - 1] = LINE_FILL
         end
       end
     end
@@ -48,8 +48,8 @@ module CliPaint
       NEIGHBORS.each do |point|
         new_x = x + point[0]
         new_y = y + point[1]
-        if valid?(new_x, new_y) && pixels[new_y][new_x] == FILL
-          @pixels[new_y][new_x] = fill
+        if valid?(new_x, new_y) && pixels[new_y - 1][new_x - 1] == FILL
+          @pixels[new_y - 1][new_x - 1] = fill
           fill(new_x, new_y, fill)
         end
       end

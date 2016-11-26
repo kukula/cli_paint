@@ -22,19 +22,19 @@ describe CliPaint::Canvas do
 
   describe '#valid?' do
     it 'returns true when on beginning edge' do
-      expect(canvas.valid?(0, 0)).to be_truthy
+      expect(canvas.valid?(1, 1)).to be_truthy
     end
 
     it 'returns true when on ending edge' do
-      expect(canvas.valid?(width - 1, height - 1)).to be_truthy
+      expect(canvas.valid?(width, height)).to be_truthy
     end
 
     it 'returns false when X is out of canvas' do
-      expect(canvas.valid?(width, height - 1)).to be_falsey
+      expect(canvas.valid?(width + 1, height)).to be_falsey
     end
 
     it 'returns false when Y is out of canvas' do
-      expect(canvas.valid?(width - 1, height)).to be_falsey
+      expect(canvas.valid?(width, height + 1)).to be_falsey
     end
   end
 
@@ -50,7 +50,7 @@ describe CliPaint::Canvas do
       end
 
       it 'changes canvas pixels' do
-        expect { canvas.line(0, 0, width - 1, 0) }.to change { canvas.to_s }.
+        expect { canvas.line(1, 1, width, 1) }.to change { canvas.to_s }.
           from(empty_canvas).to(expected)
       end
     end
@@ -66,7 +66,7 @@ describe CliPaint::Canvas do
       end
 
       it 'changes canvas pixels' do
-        expect { canvas.line(0, 0, 0, height - 1) }.to change { canvas.to_s }.
+        expect { canvas.line(1, 1, 1, height) }.to change { canvas.to_s }.
           from(empty_canvas).to(expected)
       end
     end
@@ -95,7 +95,7 @@ describe CliPaint::Canvas do
     end
 
     it 'changes canvas pixels' do
-      expect { canvas.rect(0, 0, width - 1, height - 1) }.to change { canvas.to_s }.
+      expect { canvas.rect(1, 1, width, height) }.to change { canvas.to_s }.
         from(empty_canvas).to(expected)
     end
   end
