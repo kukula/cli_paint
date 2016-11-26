@@ -70,18 +70,6 @@ describe CliPaint::Canvas do
           from(empty_canvas).to(expected)
       end
     end
-
-    describe 'when line not horizontal nor vertical' do
-      it 'does not change canvas pixels' do
-        expect { canvas.line(0, 0, width - 1, height - 1) }.not_to change { canvas.to_s }
-      end
-    end
-
-    describe 'when line is a point' do
-      it 'does not change canvas pixels' do
-        expect { canvas.line(0, 0, 0, 0) }.not_to change { canvas.to_s }
-      end
-    end
   end
 
   describe '#rect' do

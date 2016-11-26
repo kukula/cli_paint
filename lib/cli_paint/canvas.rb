@@ -28,8 +28,6 @@ module CliPaint
     end
 
     def line(x1, y1, x2, y2)
-      return unless (x1 == x2) ^ (y1 == y2)
-
       y1.upto(y2).each do |y|
         x1.upto(x2).each do |x|
           @pixels[y - 1][x - 1] = LINE_FILL

@@ -5,6 +5,8 @@ module CliPaint
     NUMBER_ARGS_ERR_MSG = "Wrong number of args for the command"
     ARGS_ERR_MSG = "Wrong args for the command"
     POINTS_ERR_MSG = "Points should be within the canvas"
+    LINE_ERR_MSG = "Lines can be horizontal or vertical only"
+    TOP_LEFT_ERR_MSG = "Top-left point first"
 
     def initialize
       @canvas = nil
@@ -47,6 +49,18 @@ module CliPaint
       true
     end
 
+    def validate_line(args)
+      x1, y1, x2, y2 = *args
+      return false unless (x1 == x2) ^ (y1 == y2)
+      true
+    end
+
+    def validate_top_left(args)
+      x1, y1, x2, y2 = *args
+      return false unless (x1 <= x2) && (y1 <= y2)
+      true
+    end
+
     def create_canvas(args)
       return NUMBER_ARGS_ERR_MSG unless args.size == 2
       return ARGS_ERR_MSG unless validate_all_integer(args)
@@ -60,6 +74,8 @@ module CliPaint
       return NUMBER_ARGS_ERR_MSG unless args.size == 4
       return ARGS_ERR_MSG unless validate_all_integer(args)
       return POINTS_ERR_MSG unless validate_within_canvas(args)
+      return LINE_ERR_MSG unless validate_line(args)
+      return TOP_LEFT_ERR_MSG unless validate_top_left(args)
 
       @canvas.line(*args.map(&:to_i))
       @canvas.to_s
@@ -70,6 +86,7 @@ module CliPaint
       return NUMBER_ARGS_ERR_MSG unless args.size == 4
       return ARGS_ERR_MSG unless validate_all_integer(args)
       return POINTS_ERR_MSG unless validate_within_canvas(args)
+      return TOP_LEFT_ERR_MSG unless validate_top_left(args)
 
       @canvas.rect(*args.map(&:to_i))
       @canvas.to_s
