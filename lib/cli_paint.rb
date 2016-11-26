@@ -7,7 +7,7 @@ module CliPaint
     controller = Controller.new
     loop do
       puts 'enter command:'
-      controller.dispatch($stdin.gets.chomp)
+      puts controller.dispatch($stdin.gets.chomp)
     end
   end
 end
