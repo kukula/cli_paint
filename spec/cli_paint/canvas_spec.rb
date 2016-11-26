@@ -115,4 +115,23 @@ describe CliPaint::Canvas do
         from(empty_canvas).to(expected)
     end
   end
+
+  describe 'scenario from task' do
+    let(:expected) do
+      "----------------------\n" \
+      "|oooooooooooooooxxxxx|\n" \
+      "|xxxxxxooooooooox   x|\n" \
+      "|     xoooooooooxxxxx|\n" \
+      "|     xoooooooooooooo|\n" \
+      "----------------------"
+    end
+
+    it 'get canvas from example' do
+      canvas.line(1, 2, 6, 2)
+      canvas.line(6, 3, 6, 4)
+      canvas.rect(16, 1, 20, 3)
+      canvas.fill(10, 3, 'o')
+      expect(canvas.to_s).to eq(expected)
+    end
+  end
 end
