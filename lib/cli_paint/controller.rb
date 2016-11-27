@@ -33,7 +33,7 @@ module CliPaint
 
     private
 
-    def validate_all_integer(args)
+    def validate_coordinates(args)
       return false unless args.all? { |arg| arg.to_i > 0 }
       true
     end
@@ -63,7 +63,7 @@ module CliPaint
 
     def create_canvas(args)
       return NUMBER_ARGS_ERR_MSG unless args.size == 2
-      return ARGS_ERR_MSG unless validate_all_integer(args)
+      return ARGS_ERR_MSG unless validate_coordinates(args)
 
       @canvas = Canvas.new(*args.map(&:to_i))
       @canvas.to_s
@@ -72,7 +72,7 @@ module CliPaint
     def draw_line(args)
       return NO_CANVAS_ERR_MSG unless validate_canvas_exists
       return NUMBER_ARGS_ERR_MSG unless args.size == 4
-      return ARGS_ERR_MSG unless validate_all_integer(args)
+      return ARGS_ERR_MSG unless validate_coordinates(args)
       return POINTS_ERR_MSG unless validate_within_canvas(args)
       return LINE_ERR_MSG unless validate_line(args)
       return TOP_LEFT_ERR_MSG unless validate_top_left(args)
@@ -84,7 +84,7 @@ module CliPaint
     def draw_rect(args)
       return NO_CANVAS_ERR_MSG unless validate_canvas_exists
       return NUMBER_ARGS_ERR_MSG unless args.size == 4
-      return ARGS_ERR_MSG unless validate_all_integer(args)
+      return ARGS_ERR_MSG unless validate_coordinates(args)
       return POINTS_ERR_MSG unless validate_within_canvas(args)
       return TOP_LEFT_ERR_MSG unless validate_top_left(args)
 
