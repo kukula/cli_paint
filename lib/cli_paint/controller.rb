@@ -34,31 +34,26 @@ module CliPaint
     private
 
     def validate_coordinates(args)
-      return false unless args.all? { |arg| arg.to_i > 0 }
-      true
+      args.all? { |arg| arg.to_i > 0 }
     end
 
     def validate_canvas_exists
-      return false if @canvas.nil?
-      true
+      !@canvas.nil?
     end
 
     def validate_within_canvas(args)
-      return false unless args.map(&:to_i).each_slice(2).
+      args.map(&:to_i).each_slice(2).
         all? { |point| @canvas.valid?(*point) }
-      true
     end
 
     def validate_line(args)
       x1, y1, x2, y2 = *args
-      return false unless (x1 == x2) ^ (y1 == y2)
-      true
+      (x1 == x2) ^ (y1 == y2)
     end
 
     def validate_top_left(args)
-      x1, y1, x2, y2 = *args
-      return false unless (x1 <= x2) && (y1 <= y2)
-      true
+      x1, y1, x2, y2 = *args.map(&:to_i)
+      (x1 <= x2) && (y1 <= y2)
     end
 
     def create_canvas(args)

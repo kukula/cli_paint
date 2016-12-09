@@ -96,6 +96,10 @@ describe CliPaint::Controller do
             it 'returns error message' do
               expect(controller.dispatch('L 1 4 1 1')).to eq(CliPaint::Controller::TOP_LEFT_ERR_MSG)
             end
+
+            it 'does not return error message' do
+              expect(controller.dispatch('L 3 3 10 3')).not_to eq(CliPaint::Controller::TOP_LEFT_ERR_MSG)
+            end
           end
         end
       end

@@ -55,7 +55,7 @@ describe CliPaint::Canvas do
       end
     end
 
-    describe 'when line is horizontal' do
+    describe 'when line is vertical' do
       let(:expected) do
         "----------------------\n" \
         "|x                   |\n" \
